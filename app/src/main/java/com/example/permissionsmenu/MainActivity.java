@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 if (isChecked) {
                     switch_code = 2;
                     permissions(Manifest.permission.ACCESS_COARSE_LOCATION, 2);
-                    if()
                 }
                 break;
             case R.id.switch3:
