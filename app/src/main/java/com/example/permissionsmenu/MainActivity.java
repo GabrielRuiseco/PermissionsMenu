@@ -18,7 +18,6 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     private int switch_code;
-    private String permission;
     Switch switch1;
     Switch switch2;
     Switch switch3;
@@ -30,11 +29,11 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        switch1 = (Switch) findViewById(R.id.switch1);
-        switch2 = (Switch) findViewById(R.id.switch2);
-        switch3 = (Switch) findViewById(R.id.switch3);
-        switch4 = (Switch) findViewById(R.id.switch4);
-        switch5 = (Switch) findViewById(R.id.switch5);
+        switch1 = findViewById(R.id.switch1);
+        switch2 = findViewById(R.id.switch2);
+        switch3 = findViewById(R.id.switch3);
+        switch4 = findViewById(R.id.switch4);
+        switch5 = findViewById(R.id.switch5);
 
         switch1.setOnCheckedChangeListener(this);
         switch2.setOnCheckedChangeListener(this);
@@ -49,36 +48,32 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             case R.id.switch1:
                 if (isChecked) {
                     switch_code = 1;
-                    permission = Manifest.permission.RECORD_AUDIO;
-                    permissions(permission, switch_code, switch1);
+                    permissions(Manifest.permission.RECORD_AUDIO, 1);
                 }
                 break;
             case R.id.switch2:
                 if (isChecked) {
                     switch_code = 2;
-                    permission = Manifest.permission.ACCESS_COARSE_LOCATION;
-                    permissions(permission, switch_code, switch2);
+                    permissions(Manifest.permission.ACCESS_COARSE_LOCATION, 2);
+                    if()
                 }
                 break;
             case R.id.switch3:
                 if (isChecked) {
                     switch_code = 3;
-                    permission = Manifest.permission.ADD_VOICEMAIL;
-                    permissions(permission, switch_code, switch3);
+                    permissions(Manifest.permission.ADD_VOICEMAIL, 3);
                 }
                 break;
             case R.id.switch4:
                 if (isChecked) {
                     switch_code = 4;
-                    permission = Manifest.permission.SEND_SMS;
-                    permissions(permission, switch_code, switch4);
+                    permissions(Manifest.permission.SEND_SMS, 4);
                 }
                 break;
             case R.id.switch5:
                 if (isChecked) {
                     switch_code = 5;
-                    permission = Manifest.permission.INTERNET;
-                    permissions(permission, switch_code, switch5);
+                    permissions(Manifest.permission.INTERNET, 5);
                 }
                 break;
             default:
@@ -86,15 +81,15 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         }
     }
 
-    private void permissions(String permission, int switch_code, Switch switchx) {
+    private void permissions(String permission, int switch_code) {
         if (ContextCompat.checkSelfPermission(getBaseContext(), permission) == PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(getBaseContext(), "Este permiso ya fue consedido", Toast.LENGTH_SHORT).show();
         } else {
-            requestStoragePermission(permission, switch_code, switchx);
+            requestStoragePermission(permission, switch_code);
         }
     }
 
-    private void requestStoragePermission(final String permission, final int switch_code, Switch switchx) {
+    private void requestStoragePermission(final String permission, final int switch_code) {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
             new AlertDialog.Builder(MainActivity.this)
                     .setTitle("Permiso Necesario")
@@ -112,11 +107,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             }).create().show();
         } else {
             ActivityCompat.requestPermissions(this, new String[]{permission}, switch_code);
-        }
-        if (ContextCompat.checkSelfPermission(getBaseContext(), permission) == PackageManager.PERMISSION_DENIED) {
-            switchx.setChecked(false);
-        } else {
-            switchx.setChecked(true);
         }
     }
 
