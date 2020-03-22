@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             case R.id.switch3:
                 if (isChecked) {
                     switch_code = 3;
-                    permissions(Manifest.permission.ADD_VOICEMAIL, 3);
+                    permissions(Manifest.permission.READ_EXTERNAL_STORAGE, 3);
                 }
                 break;
             case R.id.switch4:
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             case R.id.switch5:
                 if (isChecked) {
                     switch_code = 5;
-                    permissions(Manifest.permission.INTERNET, 5);
+                    permissions(Manifest.permission.READ_SMS, 5);
                 }
                 break;
             default:
@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                     }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    togglesw(switch_code);
                     dialog.dismiss();
                 }
             }).create().show();
@@ -111,12 +112,36 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
         if (requestCode == switch_code) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Permiso consedido", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Permiso no consedido", Toast.LENGTH_SHORT).show();
+                togglesw(requestCode);
             }
         }
     }
+
+    private void togglesw(int requestCode){
+        switch (requestCode) {
+            case 1:
+                switch1.toggle();
+                break;
+            case 2:
+                switch2.toggle();
+                break;
+            case 3:
+                switch3.toggle();
+                break;
+            case 4:
+                switch4.toggle();
+                break;
+            case 5:
+                switch5.toggle();
+                break;
+            default:
+                break;
+        }
+    };
 }
